@@ -8,12 +8,21 @@ export interface GamepadState {
 
 export type KeyCode = string; // e.g., "KeyW", "Space", "Enter"
 
+export interface MappingEntry {
+  gamepad: string;   // e.g., "A", "LeftStickUp", "DpadRight"
+  action?: string;   // e.g., "Jump", "Move Forward" (optional description)
+  keyboard: KeyCode; // e.g., "Space", "KeyW"
+}
+
 export interface InputMapping {
-  // Map Gamepad button index to Keyboard code
+  mappings: MappingEntry[];
+}
+
+// Deprecated old format for backward compatibility if needed, 
+// but we will migrate to the new array-based format.
+export interface LegacyInputMapping {
   buttons: Record<number, KeyCode>;
-  // Map Axes to keys (simplified for demo: negative/positive directions)
   axes: {
-    // axisIndex: { negative: KeyCode, positive: KeyCode }
     [index: number]: { negative?: KeyCode; positive?: KeyCode };
   };
 }

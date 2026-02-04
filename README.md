@@ -71,27 +71,6 @@ You can create your own mapping file (e.g., `my-config.json`). The structure sho
 }
 ```
 
-### Button Index Reference
-
-| Index | Xbox | PlayStation |
-|-------|------|-------------|
-| 0     | A    | Cross       |
-| 1     | B    | Circle      |
-| 2     | X    | Square      |
-| 3     | Y    | Triangle    |
-| 4     | LB   | L1          |
-| 5     | RB   | R1          |
-| 6     | LT   | L2          |
-| 7     | RT   | R2          |
-| 8     | View | Share       |
-| 9     | Menu | Options     |
-| 10    | L3   | L3          |
-| 11    | R3   | R3          |
-| 12    | Up   | Up          |
-| 13    | Down | Down        |
-| 14    | Left | Left        |
-| 15    | Right| Right       |
-
 ## Tech Stack
 
 - **React**: UI Library

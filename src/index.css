@@ -248,6 +248,13 @@ header {
   transition: none;
 }
 
+/* Win key special color when active */
+.key[data-code="MetaLeft"].active,
+.key[data-code="MetaRight"].active {
+  background: #00aaff;
+  box-shadow: 0 0 15px rgba(0, 170, 255, 0.6);
+}
+
 /* Mapped keys highlight */
 .key.mapped {
   /* Subtle indicator that a key is mapped, even when not pressed */

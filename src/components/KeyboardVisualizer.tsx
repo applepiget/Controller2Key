@@ -33,6 +33,10 @@ const LABELS: Record<string, string> = {
   'AltLeft': 'Alt',
   'MetaLeft': 'Win',
   'Backspace': 'Back',
+  'AltRight': 'Alt',
+  'MetaRight': 'Win',
+  'ContextMenu': 'Menu',
+  'ControlRight': 'Ctrl',
   // Symbol keys (removing English names)
   'Backquote': '`',
   'Minus': '-',
@@ -90,37 +94,29 @@ export const KeyboardVisualizer: React.FC<Props> = ({ activeKeys, mapping }) => 
     if (!mapping) return new Map<KeyCode, string[]>();
     const map = new Map<KeyCode, string[]>();
 
-    // Buttons
-    Object.entries(mapping.buttons).forEach(([btnIndex, keyCode]) => {
-      const name = GAMEPAD_BUTTON_NAMES[parseInt(btnIndex)] || `Btn${btnIndex}`;
-      if (!map.has(keyCode)) map.set(keyCode, []);
-      map.get(keyCode)?.push(name);
-    });
+    mapping.mappings.forEach(entry => {
+      if (!map.has(entry.keyboard)) map.set(entry.keyboard, []);
 
-    // Axes
-    Object.entries(mapping.axes).forEach(([axisIndex, axisValue]) => {
-      const axisMap = axisValue as { negative?: KeyCode; positive?: KeyCode };
-      const idx = parseInt(axisIndex);
+      // Simplify label for display
+      let label = entry.gamepad;
+      // Convert standard long names to short visualizer symbols
+      if (label === 'LeftStickLeft') label = 'L←';
+      else if (label === 'LeftStickRight') label = 'L→';
+      else if (label === 'LeftStickUp') label = 'L↑';
+      else if (label === 'LeftStickDown') label = 'L↓';
+      else if (label === 'RightStickLeft') label = 'R←';
+      else if (label === 'RightStickRight') label = 'R→';
+      else if (label === 'RightStickUp') label = 'R↑';
+      else if (label === 'RightStickDown') label = 'R↓';
+      else if (label === 'Select') label = 'Sel';
+      else if (label === 'Start') label = 'Sta';
+      else if (label === 'Home') label = 'H';
+      else if (label === 'ArrowUp' || label === 'DpadUp') label = '↑';
+      else if (label === 'ArrowDown' || label === 'DpadDown') label = '↓';
+      else if (label === 'ArrowLeft' || label === 'DpadLeft') label = '←';
+      else if (label === 'ArrowRight' || label === 'DpadRight') label = '→';
 
-      // 0: Left Stick X, 1: Left Stick Y
-      // 2: Right Stick X, 3: Right Stick Y
-      let name = `A${idx}`;
-      let dirNeg = '-';
-      let dirPos = '+';
-
-      if (idx === 0) { name = 'L'; dirNeg = '←'; dirPos = '→'; }
-      else if (idx === 1) { name = 'L'; dirNeg = '↑'; dirPos = '↓'; }
-      else if (idx === 2) { name = 'R'; dirNeg = '←'; dirPos = '→'; }
-      else if (idx === 3) { name = 'R'; dirNeg = '↑'; dirPos = '↓'; }
-
-      if (axisMap.negative) {
-        if (!map.has(axisMap.negative)) map.set(axisMap.negative, []);
-        map.get(axisMap.negative)?.push(`${name}${dirNeg}`);
-      }
-      if (axisMap.positive) {
-        if (!map.has(axisMap.positive)) map.set(axisMap.positive, []);
-        map.get(axisMap.positive)?.push(`${name}${dirPos}`);
-      }
+      map.get(entry.keyboard)?.push(label);
     });
 
     return map;
